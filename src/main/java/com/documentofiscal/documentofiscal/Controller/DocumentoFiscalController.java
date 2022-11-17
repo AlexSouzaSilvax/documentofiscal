@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(name = "documento-fiscal", value = "documento-fiscal")
 public class DocumentoFiscalController {
     @GetMapping("pdf")
-	public void teste(HttpServletResponse response, @RequestParam String dtEmissao, @RequestParam String nmCliente,
+	public void teste(HttpServletResponse response, @RequestParam String dtEmissao, @RequestParam String numeroNota, @RequestParam String nmCliente,
 			@RequestParam String endCliente, @RequestParam String muniUfCliente, @RequestParam String cnpjCliente,
 			@RequestParam String descServicos, @RequestParam String valor, @RequestParam String valorEx, @RequestParam String banco, @RequestParam String pix)
 			throws IOException {
@@ -67,7 +67,7 @@ public class DocumentoFiscalController {
 					new Paragraph("                                                          CNPJ 34.800.365/0001-12"));
 			document.add(new Paragraph(
 					"                                                          Data da Emissão: " + dtEmissao));					
-			//document.add(new Paragraph("                                                                         Nº01/10-02"));					
+			document.add(new Paragraph("                                                                       Nº " + numeroNota)); // 01/10-02					
 			document.add(new Paragraph(
 					"                                                          1ª Via: Tomador do Serviço"));
 			document.add(new Paragraph("\n\n           Tomador do(s) Serviço(s)"));
