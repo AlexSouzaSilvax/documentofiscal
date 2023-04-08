@@ -1,33 +1,36 @@
 package com.documentofiscal.documentofiscal.Controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.documentofiscal.documentofiscal.model.DocumentoFiscal;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Image;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+
+import java.io.OutputStream;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController(value = "documento-fiscal")
 @RequestMapping(name = "documento-fiscal", value = "documento-fiscal")
 public class DocumentoFiscalController {
-	@PostMapping("pdf")
-	public void teste(HttpServletResponse response, @RequestBody DocumentoFiscal documentoFiscal)
+    @GetMapping("pdf")
+	public void teste(HttpServletResponse response, @RequestParam String dtEmissao, @RequestParam String numeroNota, @RequestParam String nmCliente,
+			@RequestParam String endCliente, @RequestParam String muniUfCliente, @RequestParam String cnpjCliente,
+			@RequestParam String descServicos, @RequestParam String valor, @RequestParam String valorEx, @RequestParam String banco, @RequestParam String pix)
 			throws IOException {
 		/*
 		 * params 03/09/2021
@@ -63,27 +66,24 @@ public class DocumentoFiscalController {
 			document.add(
 					new Paragraph("                                                          CNPJ 34.800.365/0001-12"));
 			document.add(new Paragraph(
-					"                                                          Data da Emissão: "
-							+ documentoFiscal.getDtEmissao()));
-			document.add(new Paragraph("                                                                       Nº "
-					+ documentoFiscal.getNumeroNota())); // 01/10-02
+					"                                                          Data da Emissão: " + dtEmissao));					
+			document.add(new Paragraph("                                                                       Nº " + numeroNota)); // 01/10-02					
 			document.add(new Paragraph(
 					"                                                          1ª Via: Tomador do Serviço"));
 			document.add(new Paragraph("\n\n           Tomador do(s) Serviço(s)"));
-			document.add(new Paragraph("\n                 Nome: " + documentoFiscal.getNmCliente()));
-			document.add(new Paragraph("                 Endereço: " + documentoFiscal.getEndCliente()));
-			document.add(new Paragraph("                 Município/UF: " + documentoFiscal.getMuniUfCliente()));
-			document.add(new Paragraph("                 CPF: " + documentoFiscal.getCnpjCliente()));
+			document.add(new Paragraph("\n                 Nome: " + nmCliente));
+			document.add(new Paragraph("                 Endereço: " + endCliente));
+			document.add(new Paragraph("                 Município/UF: " + muniUfCliente));
+			document.add(new Paragraph("                 CPF: " + cnpjCliente));
 			document.add(new Paragraph("\n\n           Discriminação dos Serviços"));
 			document.add(new Paragraph(
-					"\n                 " + documentoFiscal.getDescServicos()));
-			document.add(new Paragraph("                 Valor  R$ " + documentoFiscal.getValor() + " ("
-					+ documentoFiscal.getValorEx() + ")."));
+					"\n                 " + descServicos));
+			document.add(new Paragraph("                 Valor  R$ " + valor + " (" + valorEx + ")."));
 			document.add(new Paragraph("\n\n           Dados bancários"));
 			document.add(new Paragraph("\n                 Allan Costa da Silva"));
 			document.add(new Paragraph("                 084.329.137-07"));
-			document.add(new Paragraph("                 Banco " + documentoFiscal.getBanco()));
-			document.add(new Paragraph("                 Pix " + documentoFiscal.getPix()));
+			document.add(new Paragraph("                 Banco " + banco));
+			document.add(new Paragraph("                 Pix " + pix));
 			document.add(new Paragraph(
 					"\n\n\n                                                                    Assinatura"));
 			document.add(new Paragraph("\n"));
